@@ -1,9 +1,14 @@
+import IComment from "./IComment";
 import IQuote from "./IQuote";
+import IUser from "./IUser";
 
-interface Oraculum {
+interface IOraculum {
   name: String;
   createdAt: Date;
+  oraculumAuthor: IUser;
   quotes: IQuote[];
+  likes: number;
+  comments: IComment[];
 }
 
-export default Oraculum;
+export default IOraculum;

@@ -1,13 +1,13 @@
 import express, { Router } from "express";
 import mongoose from "mongoose";
-import OraculumModel from "../../db/Models/oraculumSchema";
+import CommentModel from "../../db/Models/commentSchema";
 
 const router: Router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
-    const oracula = await OraculumModel.find();
-    res.status(200).json(oracula);
+    const comments = await CommentModel.find();
+    res.status(200).json(comments);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -15,30 +15,30 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
-  const newOraculum = new OraculumModel({
+  const newComment = new CommentModel({
     name: req.body.name,
     createdAt: Date.now(),
     quotes: req.body.quotes,
   });
   try {
-    const savedOraculum = await newOraculum.save();
-    console.log(`${savedOraculum.name} saved`);
-    res.status(201).json({ message: "Oraculum registered successfully" });
+    const savedComment = await newComment.save();
+    console.log(`${savedComment} saved`);
+    res.status(201).json({ message: "Comment registered successfully" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Internal server error" });
   }
 });
 
-router.delete("/delete/:oraculumId", async (req, res) => {
-  const oraculumId = req.params.oraculumId;
+router.delete("/delete/:commentId", async (req, res) => {
+  const commentId = req.params.commentId;
 
   try {
-    const deletedOraculum = await OraculumModel.findByIdAndDelete(oraculumId);
-    if (deletedOraculum) {
-      res.status(201).json({ message: "Oraculum deleted successfully" });
+    const deletedComment = await CommentModel.findByIdAndDelete(commentId);
+    if (deletedComment) {
+      res.status(201).json({ message: "Comment deleted successfully" });
     } else {
-      res.status(404).json({ message: "Oraculum not found" });
+      res.status(404).json({ message: "Comment not found" });
     }
   } catch (error) {
     console.log(error);
