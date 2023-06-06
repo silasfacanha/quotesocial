@@ -1,14 +1,13 @@
 import mongoose, { Schema, model, connect } from "mongoose";
 import IOraculum from "../../../shared/Interfaces/IOraculum";
-import quoteSchema from "./quoteSchema";
-import commentSchema from "./commentSchema";
+
 const oraculumSchema = new Schema<IOraculum>({
   name: { type: String, required: true },
-  oraculumAuthor: { type: Schema.Types.ObjectId, ref: "user", required: true },
+  user: { type: Schema.Types.ObjectId, ref: "user", required: true },
   createdAt: { type: Date, required: true },
   likes: { type: Number, required: true },
-  comments: { type: [commentSchema.schema] },
-  quotes: { type: [quoteSchema.schema], required: true },
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
+  quotes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Quote" }],
 });
 
 const OraculumModel = model<IOraculum>("Oraculum", oraculumSchema);

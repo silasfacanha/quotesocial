@@ -1,10 +1,11 @@
+import { Schema } from "mongoose";
 import IUser from "./IUser";
 
 interface IQuote {
   text: string;
   author: string;
   source: string;
-  quoteProvider: IUser;
+  user: Schema.Types.ObjectId;
   createdAt: Date;
 }
 

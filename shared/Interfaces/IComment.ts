@@ -1,11 +1,12 @@
+import { Schema, model } from "mongoose";
 import IPost from "./IPost";
 import IUser from "./IUser";
 
 interface IComment {
-  commentedPost: IPost;
-  commentAuthor: IUser;
+  commentedPost: Schema.Types.ObjectId;
+  user: Schema.Types.ObjectId;
   text: string;
-  likes: number;
+  likes: Number;
   createdAt: Date;
 }
 

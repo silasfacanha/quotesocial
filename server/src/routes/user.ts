@@ -1,6 +1,9 @@
 import express from "express";
-
 import UserModel from "../../db/Models/userSchema";
+import { Model } from "mongoose";
+
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const router = express.Router();
 //create, delete, update the name of the user.
@@ -16,9 +19,14 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
+  const existingUser = await UserModel.findOne({ name: req.body.name });
+  if (existingUser) {
+    return res.status(409).json({ message: "User already exists" });
+  }
+  const hashedPassword = await bcrypt.hash(req.body.password, 10);
   const newUser = new UserModel({
     name: req.body.name,
-    password: req.body.password,
+    password: hashedPassword,
     createdAt: Date.now(),
   });
   try {
@@ -28,6 +36,19 @@ router.post("/register", async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+router.put("/:userId", async (req, res) => {
+  const userId = req.params.userId;
+  const updateName = { name: req.body.name };
+
+  try {
+    const updatedUser = await UserModel.findByIdAndUpdate(userId, updateName);
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
@@ -44,6 +65,19 @@ router.delete("/delete/:userId", async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+router.post("/login", async (req, res) => {
+  const existingUser: any = await UserModel.findOne({
+    name: req.body.name,
+  });
+  const match = await bcrypt.compare(req.body.password, existingUser.password);
+  if (req.body.name === existingUser.name && match) {
+    const token = jwt.sign({ name: existingUser.name }, "secret");
+    return res.status(200).json({ message: "User logged in successfully" });
+  } else {
+    return res.status(401).json({ message: "Invalid Credentials" });
   }
 });
 

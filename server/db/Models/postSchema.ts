@@ -7,7 +7,7 @@ const postSchema = new Schema<IPost>({
   quote: { type: Schema.Types.ObjectId, ref: "quote", required: true },
   postText: { type: String, required: true },
   createdAt: { type: Date, required: true },
-  postAuthor: { type: Schema.Types.ObjectId, ref: "user", required: true },
+  user: { type: Schema.Types.ObjectId, ref: "user", required: true },
   likes: { type: Number, required: true },
   comments: [{ type: Schema.Types.ObjectId, ref: "comment" }],
 });
