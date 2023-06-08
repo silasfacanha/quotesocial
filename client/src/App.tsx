@@ -1,14 +1,15 @@
 import "./App.css";
-import Feed from "./pages/Feed";
+
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Oracula from "./pages/Oracula/Oracula";
+import Oracula from "./pages/OraculaArea/OraculaArea";
+import OraculaArea from "./pages/OraculaArea/OraculaArea";
 function App() {
   return (
     <>
       <Router>
         <Routes>
-          <Route path="/oracula" element={<Oracula />} />
+          <Route path="/" element={<OraculaArea />} />
         </Routes>
       </Router>
     </>
