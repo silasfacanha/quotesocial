@@ -11,7 +11,7 @@ const port = 3000;
 app.use(express.json());
 app.use(cors());
 mongoose.connect(
-  "mongodb+srv://test:5oDUcAXNDE00uAsS@quotesocialcluster.f7vjeth.mongodb.net/",
+  "mongodb+srv://test:test123@quotesocialcluster.f7vjeth.mongodb.net/",
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,

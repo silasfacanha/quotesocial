@@ -5,9 +5,10 @@ import IOraculum from '../../../../../shared/Interfaces/IOraculum';
 
 function index() {
     const [myOracula, setMyOracula] = useState<IOraculum[]>([]);
+
     
     const fetchMyOracula = async () => {
-        const { data } = await axios.get <IOraculum[]>("localhost:3000/quote/:userId");
+        const { data } = await axios.get<Array<IOraculum>>("localhost:3000/quote/:userId");
         setMyOracula(data);}
 
 useEffect(()=>fetchMyOracula, []);
