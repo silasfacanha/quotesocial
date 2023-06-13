@@ -13,12 +13,28 @@ router.get("/", async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
+router.get("/:userId", async (req, res) => {
+  const userId = req.params.userId;
+  try {
+    const oracula = await OraculumModel.find({ userId: userId });
+    res.status(200).json(oracula);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Internal Server Error" });
 
-router.post("/register", async (req, res) => {
+  }
+});
+
+router.post("/:userId", async (req, res) => {
   const newOraculum = new OraculumModel({
     name: req.body.name,
+    
     createdAt: Date.now(),
+    user:req.params.userId,
     quotes: req.body.quotes,
+    likes:0,
+    comments: req.body.comments
+    
   });
   try {
     const savedOraculum = await newOraculum.save();
